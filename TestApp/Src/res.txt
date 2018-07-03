@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-16"?>
+<applications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <application>
+    <name>custom-sql</name>
+    <destination-port>5000-6000</destination-port>
+    <protocol>tcp</protocol>
+  </application>
+  <application>
+    <name>custom-xyz</name>
+    <description>myCoolApp</description>
+    <destination-port>5500</destination-port>
+    <protocol>udp</protocol>
+    <source-port>8888</source-port>
+  </application>
+  <application-set>
+    <name>MgrAppSet</name>
+    <application>
+      <name>junos-ssh</name>
+    </application>
+    <application>
+      <name>junos-telnet</name>
+    </application>
+    <application>
+      <name>junos-https</name>
+    </application>
+    <application>
+      <name>junos-http</name>
+    </application>
+    <application>
+      <name>custom-sql</name>
+    </application>
+  </application-set>
+  <application-set>
+    <name>GoodApps</name>
+    <application>
+      <name>custom-xyz</name>
+    </application>
+    <application-set>
+      <name>MgrAppSet</name>
+    </application-set>
+  </application-set>
+</applications>
