@@ -106,7 +106,7 @@ namespace TestApp.UnitTests
         [Test]
         public void CommandsManager_parse()
         {
-            var filename = @"C:\Users\Anton\Source\Repos\TestApp\TestApp\Src\test.txt";
+            var filename = @"D:\Projects\Repos\TestApp\TestApp\Src\test.txt";
             var manager = new CommandsManager();
             manager.ParseFile(filename);
         }
@@ -114,12 +114,12 @@ namespace TestApp.UnitTests
         [Test]
         public void CommandsManager_exports_xml()
         {
-            var filename = @"C:\Users\Anton\Source\Repos\TestApp\TestApp\Src\test.txt";
+            var filename = @"D:\Projects\Repos\TestApp\TestApp\Src\test.txt";
             var manager = new CommandsManager();
             manager.ParseFile(filename);
             var output = manager.Configuration.Export();
 
-            File.WriteAllText(@"C:\Users\Anton\Source\Repos\TestApp\TestApp\Src\res.txt", output);
+            File.WriteAllText(@"D:\Projects\Repos\TestApp\TestApp\Src\res.txt", output);
         }
     }
 }

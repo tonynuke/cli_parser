@@ -51,6 +51,11 @@ namespace TestApp.Domain.Configurations
         {
             StringWriter Output = new StringWriter(new StringBuilder());
 
+            if (this.Configurations.Any() == false)
+            {
+                return null;
+            }
+
             XmlRootAttribute xRoot = new XmlRootAttribute
             {
                 ElementName = this.Configurations.First().Root

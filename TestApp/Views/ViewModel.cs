@@ -1,19 +1,35 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using TestApp.Annotations;
 using TestApp.Domain;
 using TestApp.Domain.Configurations;
 
 namespace TestApp.Views
 {
-    public class ViewModel
+    public class ViewModel : INotifyPropertyChanged
     {
         public CommandsManager CommandsManager { get; set; }
 
-        public ObservableCollection<ConfigurationViewModel> Configurations { set; get; } = new ObservableCollection<ConfigurationViewModel>();
+        public ObservableCollection<ConfigurationViewModel> Configurations { set; get; }
+
+        public ViewModel()
+        {
+            this.CommandsManager = new CommandsManager();
+            this.Configurations = new ObservableCollection<ConfigurationViewModel>();
+        }
+
+        public void Export(string fileName)
+        {
+            var output = this.CommandsManager.Configuration.Export();
+            File.WriteAllText(@"D:\Projects\Repos\TestApp\TestApp\Src\res.txt", output);
+        }
 
         public void Read(string fileName)
         {
-            this.CommandsManager.ParseFile(@"C:\Users\Anton\Source\Repos\TestApp\TestApp\Src\test.txt");
+            this.CommandsManager.ParseFile(@"D:\Projects\Repos\TestApp\TestApp\Src\test.txt");
 
             foreach (var configuration in CommandsManager.Configuration.Configurations)
             {
@@ -41,18 +57,22 @@ namespace TestApp.Views
                     {
                         Name = abstractConfig.Name,
                         Type = "Group",
-                        Members = abstractConfig.Configurations.Select(c => c.Name).
-                            Aggregate((x, y) => $"{x};{y}"),
+                        Members = abstractConfig.Configurations.Select(c => c.Name).Aggregate((x, y) => $"{x},{y}"),
                     };
                 }
 
                 this.Configurations.Add(viewModel);
             }
+
+            OnPropertyChanged("Configurations");
         }
 
-        public ViewModel()
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.CommandsManager = new CommandsManager();
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
