@@ -10,18 +10,34 @@ namespace TestApp.Domain.Configurations
     [XmlType("application")]
     public class ApplicationConfig : AbstractConfig
     {
+        /// <summary>
+        /// Описание
+        /// </summary>
         [XmlElement("description")]
         public string Description { set; get; }
 
+        /// <summary>
+        /// Порт назначения
+        /// </summary>
         [XmlElement("destination-port")]
         public string DestinationPort { set; get; }
 
+        /// <summary>
+        /// Исходный порт
+        /// </summary>
         [XmlElement("source-port")]
         public string SourcePort { set; get; }
 
+        /// <summary>
+        /// Протокол
+        /// </summary>
         [XmlElement("protocol")]
         public string Protocol { set; get; }
 
+        /// <summary>
+        /// Выполняет слияние конфигураций
+        /// </summary>
+        /// <param name="config">Конфигурация для слияния</param>
         public override void Merge(AbstractConfig config)
         {
             if (config is ApplicationConfig)
@@ -39,19 +55,6 @@ namespace TestApp.Domain.Configurations
                 }
             }
         }
-
-        ////public void TrySetProtocol(string value)
-        ////{
-        ////    try
-        ////    {
-        ////        var savingValue = (Protocol)Enum.Parse(typeof(Protocol), value, true);
-        ////        this.Protocol = savingValue;
-        ////    }
-        ////    catch (Exception exception)
-        ////    {
-        ////        throw exception;
-        ////    }
-        ////}
 
         /// <summary>
         /// Устанавливает значение атрибутов

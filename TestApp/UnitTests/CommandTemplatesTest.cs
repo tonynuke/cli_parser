@@ -75,7 +75,7 @@ namespace TestApp.UnitTests
         public void SADC_return_description_application()
         {
             var cli = "set applications application custom-xyz description myCoolApp";
-            var sapc = new SetApplicationDesscriptionCommandTemplate();
+            var sapc = new SetApplicationDescriptionCommandTemplate();
             var actualResult = sapc.Parse(cli) as ApplicationConfig;
 
             Assert.IsNotNull(actualResult);
@@ -84,42 +84,23 @@ namespace TestApp.UnitTests
         }
 
         [Test]
-        public void CommandsManager_creates_app()
+        public void CommandsManager_creates_config()
         {
             var cli = "set applications application custom-sql destination-port 5000-6000";
             var manager = new CommandsManager();
-            var app = manager.Parse(cli);
+            var config = manager.Parse(cli);
 
-            Assert.IsNotNull(app);
+            Assert.IsNotNull(config);
         }
 
         [Test]
-        public void CommandsManager_returns_null()
+        public void CommandsManager_returns_null_config_when_it_is_bad()
         {
             var cli = "set applications application custom-sql destination-por 5000-6000";
             var manager = new CommandsManager();
-            var app = manager.Parse(cli);
+            var config = manager.Parse(cli);
 
-            Assert.IsNull(app);
-        }
-
-        [Test]
-        public void CommandsManager_parse()
-        {
-            var filename = @"D:\Projects\Repos\TestApp\TestApp\Src\test.txt";
-            var manager = new CommandsManager();
-            manager.ParseFile(filename);
-        }
-
-        [Test]
-        public void CommandsManager_exports_xml()
-        {
-            var filename = @"D:\Projects\Repos\TestApp\TestApp\Src\test.txt";
-            var manager = new CommandsManager();
-            manager.ParseFile(filename);
-            var output = manager.Configuration.Export();
-
-            File.WriteAllText(@"D:\Projects\Repos\TestApp\TestApp\Src\res.txt", output);
+            Assert.IsNull(config);
         }
     }
 }

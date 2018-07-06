@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
 using TestApp.Domain.CommandTemplates;
 using TestApp.Domain.Configurations;
 
@@ -20,6 +17,9 @@ namespace TestApp.Domain
 
         public OutputConfiguration Configuration { get; protected set; }
 
+        /// <summary>
+        /// Инициализирует новый экземпляр класс <see cref="CommandsManager"/>
+        /// </summary>
         public CommandsManager()
         {
             this.Configuration = new OutputConfiguration();
@@ -27,7 +27,7 @@ namespace TestApp.Domain
             this.commandTemplates.Add(new SetApplicationDestinationPortCommandTemplate());
             this.commandTemplates.Add(new SetApplicationSourcePortCommandTemplate());
             this.commandTemplates.Add(new SetApplicationProtocolCommandTemplate());
-            this.commandTemplates.Add(new SetApplicationDesscriptionCommandTemplate());
+            this.commandTemplates.Add(new SetApplicationDescriptionCommandTemplate());
 
             this.commandTemplates.Add(new SetApplicationSetCommandTemplate());
             this.commandTemplates.Add(new SetApplicationSetGroupCommandTemplate());

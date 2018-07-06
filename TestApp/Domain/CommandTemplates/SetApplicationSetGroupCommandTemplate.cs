@@ -3,8 +3,14 @@ using TestApp.Domain.Configurations;
 
 namespace TestApp.Domain.CommandTemplates
 {
+    /// <summary>
+    /// Команда установки группы конфигураций для групп приложений
+    /// </summary>
     public class SetApplicationSetGroupCommandTemplate : ICommandTemplate
     {
+        /// <summary>
+        /// Паттерн команды
+        /// </summary>
         private readonly string pattern =
             $"^{CommandDictionary.Set} " +
             $"{CommandDictionary.Word} " +
@@ -13,7 +19,30 @@ namespace TestApp.Domain.CommandTemplates
             $"{CommandDictionary.CliApplicationSet} " +
             $"{CommandDictionary.Word}";
 
-        private ApplicationSetConfig SetupApplication(string commandLine)
+        /// <summary>
+        /// Преобразует cli команду в конфигурацию
+        /// </summary>
+        /// <param name="commandLine"></param>
+        /// <returns>Конфигурация</returns>
+        public AbstractConfig Parse(string commandLine)
+        {
+            bool isMathced = Regex.IsMatch(commandLine, this.pattern);
+
+            if (isMathced == true)
+            {
+                var result = this.SetupApplicationSetConfig(commandLine);
+                return result;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Выполняет настройку конфигурации
+        /// </summary>
+        /// <param name="commandLine"></param>
+        /// <returns>Конфигурация группы приложений</returns>
+        private ApplicationSetConfig SetupApplicationSetConfig(string commandLine)
         {
             var separator = ' ';
             var args = commandLine.Split(separator);
@@ -30,19 +59,6 @@ namespace TestApp.Domain.CommandTemplates
             application.Configurations.Add(new ApplicationSetConfig() { Name = appName, Root = root });
 
             return application;
-        }
-
-        public AbstractConfig Parse(string commandLine)
-        {
-            bool isMathced = Regex.IsMatch(commandLine, this.pattern);
-
-            if (isMathced == true)
-            {
-                var result = this.SetupApplication(commandLine);
-                return result;
-            }
-
-            return null;
         }
     }
 }

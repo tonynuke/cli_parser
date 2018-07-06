@@ -7,6 +7,11 @@ namespace TestApp.Domain.CommandTemplates
     /// </summary>
     public interface ICommandTemplate
     {
+        /// <summary>
+        /// Преобразует cli команду в конфигурацию
+        /// </summary>
+        /// <param name="commandLine"></param>
+        /// <returns>Конфигурация</returns>
         AbstractConfig Parse(string commandLine);
     }
 }

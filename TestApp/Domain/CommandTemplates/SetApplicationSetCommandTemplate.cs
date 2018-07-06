@@ -3,8 +3,14 @@ using TestApp.Domain.Configurations;
 
 namespace TestApp.Domain.CommandTemplates
 {
+    /// <summary>
+    /// Команда установки группы конфигураций для приложения
+    /// </summary>
     public class SetApplicationSetCommandTemplate : ICommandTemplate
     {
+        /// <summary>
+        /// Паттерн команды
+        /// </summary>
         private readonly string pattern =
             $"^{CommandDictionary.Set} " +
             $"{CommandDictionary.Word} " +
@@ -13,6 +19,29 @@ namespace TestApp.Domain.CommandTemplates
             $"{CommandDictionary.CliApplication} " +
             $"{CommandDictionary.Word}";
 
+        /// <summary>
+        /// Преобразует cli команду в конфигурацию
+        /// </summary>
+        /// <param name="commandLine"></param>
+        /// <returns>Конфигурация</returns>
+        public AbstractConfig Parse(string commandLine)
+        {
+            bool isMathced = Regex.IsMatch(commandLine, this.pattern);
+
+            if (isMathced == true)
+            {
+                var result = this.SetupApplication(commandLine);
+                return result;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Выполняет настройку конфигурации
+        /// </summary>
+        /// <param name="commandLine"></param>
+        /// <returns>Конфигурация группы приложений</returns>
         private ApplicationSetConfig SetupApplication(string commandLine)
         {
             var separator = ' ';
@@ -30,19 +59,6 @@ namespace TestApp.Domain.CommandTemplates
             application.Configurations.Add(new ApplicationConfig() { Name = appName, Root = root });
 
             return application;
-        }
-
-        public AbstractConfig Parse(string commandLine)
-        {
-            bool isMathced = Regex.IsMatch(commandLine, this.pattern);
-
-            if (isMathced == true)
-            {
-                var result = this.SetupApplication(commandLine);
-                return result;
-            }
-
-            return null;
         }
     }
 }

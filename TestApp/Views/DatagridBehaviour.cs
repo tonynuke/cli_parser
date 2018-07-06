@@ -5,10 +5,17 @@ using System.Windows.Interactivity;
 
 namespace TestApp.Views
 {
+    /// <summary>
+    /// Behaviour для DataGrid
+    /// </summary>
     public class DatagridBehaviour : Behavior<UIElement>
     {
         private DataGrid dataGrid;
 
+        /// <summary>
+        /// Срабатывает при присоединии поведения к элементу
+        /// </summary>
+        /// <remarks>Настраивает отображение при помощи атрибутов у <see cref="ConfigurationViewModel"/></remarks>
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -24,10 +31,8 @@ namespace TestApp.Views
                 object[] attributes = prop.GetCustomAttributes(true);
                 foreach (object attribute in attributes)
                 {
-                    if (attribute is ViewAttribute)
+                    if (attribute is ViewAttribute viewAttribute)
                     {
-                        var viewAttribute = attribute as ViewAttribute;
-
                         var column = new DataGridTextColumn
                         {
                             Header = viewAttribute.Name,

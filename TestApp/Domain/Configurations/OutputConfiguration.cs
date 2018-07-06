@@ -19,6 +19,9 @@ namespace TestApp.Domain.Configurations
         [XmlElement("application-set", typeof(ApplicationSetConfig))]
         public List<AbstractConfig> Configurations { protected set; get; }
 
+        /// <summary>
+        /// Инициализирует новый экземпляр класс <see cref="OutputConfiguration"/>
+        /// </summary>
         public OutputConfiguration()
         {
             this.Configurations = new List<AbstractConfig>();

@@ -10,10 +10,17 @@ namespace TestApp.Domain.Configurations
     [XmlType("application-set")]
     public class ApplicationSetConfig : AbstractConfig
     {
+        /// <summary>
+        /// Коллекция конфигураций
+        /// </summary>
         [XmlElement("application", typeof(ApplicationConfig))]
         [XmlElement("application-set", typeof(ApplicationSetConfig))]
         public List<AbstractConfig> Configurations = new List<AbstractConfig>();
 
+        /// <summary>
+        /// Выполняет слияние конфигураций
+        /// </summary>
+        /// <param name="config">Конфигурация для слияния</param>
         public override void Merge(AbstractConfig config)
         {
             var applicationSetConfig = config as ApplicationSetConfig;

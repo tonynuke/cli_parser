@@ -1,35 +1,52 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using TestApp.Annotations;
 using TestApp.Domain;
 using TestApp.Domain.Configurations;
 
 namespace TestApp.Views
 {
-    public class ViewModel : INotifyPropertyChanged
+    /// <summary>
+    /// View модель для <see cref="CommandsManager"/>
+    /// </summary>
+    public class ViewModel
     {
+        /// <summary>
+        /// Менеджер команд
+        /// </summary>
         public CommandsManager CommandsManager { get; set; }
 
+        /// <summary>
+        /// Коллекция конфигурацтй для отображения
+        /// </summary>
         public ObservableCollection<ConfigurationViewModel> Configurations { set; get; }
 
+        /// <summary>
+        /// Инициализирует новый экземпляр класс <see cref="ViewModel"/>
+        /// </summary>
         public ViewModel()
         {
             this.CommandsManager = new CommandsManager();
             this.Configurations = new ObservableCollection<ConfigurationViewModel>();
         }
 
+        /// <summary>
+        /// Сохраняет конфигурацию в файл
+        /// </summary>
+        /// <param name="fileName">Имя файла</param>
         public void Export(string fileName)
         {
             var output = this.CommandsManager.Configuration.Export();
-            File.WriteAllText(@"D:\Projects\Repos\TestApp\TestApp\Src\res.txt", output);
+            File.WriteAllText(fileName, output);
         }
 
+        /// <summary>
+        /// Считывает файл и создает конфигурацию на его основе
+        /// </summary>
+        /// <param name="fileName">Имя файла</param>
         public void Read(string fileName)
         {
-            this.CommandsManager.ParseFile(@"D:\Projects\Repos\TestApp\TestApp\Src\test.txt");
+            this.CommandsManager.ParseFile(fileName);
 
             foreach (var configuration in CommandsManager.Configuration.Configurations)
             {
@@ -63,16 +80,6 @@ namespace TestApp.Views
 
                 this.Configurations.Add(viewModel);
             }
-
-            OnPropertyChanged("Configurations");
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

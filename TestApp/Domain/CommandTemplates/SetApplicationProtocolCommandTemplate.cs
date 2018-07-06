@@ -1,13 +1,16 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using TestApp.Domain.Configurations;
 
 namespace TestApp.Domain.CommandTemplates
 {
+    /// <summary>
+    /// Команда установки протокола
+    /// </summary>
     public class SetApplicationProtocolCommandTemplate : ICommandTemplate
     {
+        /// <summary>
+        /// Паттерн команды
+        /// </summary>
         private readonly string pattern =
             $"^{CommandDictionary.Set} " +
             $"{CommandDictionary.Word} " +
@@ -16,20 +19,30 @@ namespace TestApp.Domain.CommandTemplates
             $"{CommandDictionary.Protocol} " +
             $"{CommandDictionary.TCP}|{CommandDictionary.UDP}";
 
+        /// <summary>
+        /// Преобразует cli команду в конфигурацию
+        /// </summary>
+        /// <param name="commandLine"></param>
+        /// <returns>Конфигурация</returns>
         public AbstractConfig Parse(string commandLine)
         {
             bool isMathced = Regex.IsMatch(commandLine, this.pattern);
 
             if (isMathced == true)
             {
-                var result = this.SetupApplication(commandLine);
+                var result = this.SetupApplicationConfig(commandLine);
                 return result;
             }
 
             return null;
         }
 
-        private ApplicationConfig SetupApplication(string commandLine)
+        /// <summary>
+        /// Выполняет настройку конфигурации
+        /// </summary>
+        /// <param name="commandLine"></param>
+        /// <returns>Конфигурация приложения</returns>
+        private ApplicationConfig SetupApplicationConfig(string commandLine)
         {
             var separator = ' ';
             var args = commandLine.Split(separator);

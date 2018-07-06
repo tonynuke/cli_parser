@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using TestApp.Domain;
-using TestApp.Domain.Configurations;
+﻿using System.Windows;
 using TestApp.Views;
 
 namespace TestApp
@@ -19,6 +10,9 @@ namespace TestApp
     {
         private readonly ViewModel viewModel;
 
+        /// <summary>
+        /// Коллекция известных шаблонов команд
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -27,11 +21,21 @@ namespace TestApp
             this.ConfigsGrid.DataContext = this.viewModel;
         }
 
+        /// <summary>
+        /// Обработчик события импорта cli команд
+        /// </summary>
+        /// <param name="sender">Объект, пославший событие</param>
+        /// <param name="e">Данные события</param>
         private void ImportCli(object sender, RoutedEventArgs e)
         {
             this.viewModel.Read(this.FileName.Text);
         }
 
+        /// <summary>
+        /// Обработчик события экспорта в XML
+        /// </summary>
+        /// <param name="sender">Объект, пославший событие</param>
+        /// <param name="e">Данные события</param>
         private void ExportToXml(object sender, RoutedEventArgs e)
         {
             this.viewModel.Export("");
